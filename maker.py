@@ -12,36 +12,40 @@ win.title('Sokoban Maker')
 """---------------------------------------------------------------------------------------------------------------------------------------------------"""
 ### CREATION DES CONSTANTES ###
 
-class r:
+class Ruler():
     """Ensemble de constantes"""
 
-    # taille
+    def __init__(rap, width, height, fillCan):
     
-    rap = g.r.rap
-    width,height = 13,13
+        # taille
 
-    # couleurs
+        rap = rap
+        width, height = width, height
 
-    fill_can = g.r.fill_can
+        # couleurs
 
+        fillCan = fillCan
+
+r = Ruler(g.r.rap, 13, 13, g.r.fillCan)
+        
 """---------------------------------------------------------------------------------------------------------------------------------------------------"""
 ### CREATION DU CANVAS ###
 
-class new_can(tk.Canvas):
+class Canvas(tk.Canvas):
     """Canvas"""
     
     def __init__(self):
 
         # création de la grille avec sa width et height
-        self.width,self.height = r.width*r.rap,r.height*r.rap
-        tk.Canvas.__init__(self,win,width=self.width,height=self.height,bg=r.fill_can)
+        self.width, self.height = r.width * r.rap, r.height * r.rap
+        tk.Canvas.__init__(self, win, width = self.width, height = self.height, bg = r.fillCan)
         self.grid()
 
         return
 
-    def move(self,obj,x,y):
-        """Permet de bouger un objet OBJ_DESIGN dans le Canvas"""
+    def move(self, obj, x, y):
         """
+        Permet de bouger un objet OBJ_DESIGN dans le Canvas
         In :
           obj : ensemble d'objets dans le Canvas à bouger des mêmes coordonnées
           x   : valeur de changement sur l'abscisse de obj
@@ -49,32 +53,32 @@ class new_can(tk.Canvas):
         """
 
         # obj est une liste d'éléments de tk.Canvas.create créée comme obj_design dans graphics g, qu'il faut bouger tous ensemble avec les mêmes valeurs pour garder leur forme
-        # on utilise la fonction initiale tk.Canvas.move() qu'on adapte à un objet obj_design de graphics g
-        for k in obj:
-            super(new_can,self).move(k,x,y)
+        # on utilise la fonction initiale tk.Canvas.move() qu'on adapte à un objet objDesign de graphics g
+        for i in obj:
+            super(Canvas,self).move(i, x, y)
 
         return
 
-    def delete(self,obj):
-        """Permet de détruire un objet OBJ_DESIGN dans le Canvas"""
+    def delete(self, obj):
         """
+        Permet de détruire un objet OBJDESIGN dans le Canvas
         In :
           obj : ensemble d'objets dans le Canvas à détruire
         """
 
         # obj est une liste d'éléments de tk.Canvas.create créée comme obj_design dans graphics g, qu'il faut bouger tous ensemble avec les mêmes valeurs pour garder leur forme
-        # on utilise la fonction initiale tk.Canvas.move() qu'on adapte à un objet obj_design de graphics g
-        for k in obj:
-            super(new_can,self).delete(k)
+        # on utilise la fonction initiale tk.Canvas.move() qu'on adapte à un objet objDesign de graphics g
+        for i in obj:
+            super(Canvas, self).delete(i)
 
-can = new_can()
+can = Canvas()
 
 """---------------------------------------------------------------------------------------------------------------------------------------------------"""
 ### FONCTION DES COORDONNEES POUR LE JOUEUR ###
 
-def get_coords(x,y):
-        """Renvoie les coordonnées pour CAN d'un joueur"""
+def getCoords(x,y):
         """
+        Renvoie les coordonnées pour CAN d'un joueur
         In :
           x : abscisse à adapter
           y : ordonnée à adapter
@@ -85,26 +89,26 @@ def get_coords(x,y):
           ordonnée y2
         """
         
-        return (x*r.rap+r.rap/4,y*r.rap+r.rap/4,(x+1)*r.rap-r.rap/4,(y+1)*r.rap-r.rap/4)
+        return (x * r.rap + r.rap / 4, y * r.rap + r.rap / 4, (x + 1) * r.rap - r.rap / 4, (y + 1) * r.rap - r.rap / 4)
 
 """---------------------------------------------------------------------------------------------------------------------------------------------------"""
 ### FONCTION DE CHANGEMENT ET PLACEMENT D'ITEM ###
 
-def place(event=None):
-    """Place un émélent en fonction de cur_item"""
+def place(event = None):
     """
+    Place un élément en fonction de curItem
     In :
-      event=None : objet de tkinter tk lié à un bind avec ses propriétés
+      event = None : objet de tkinter tk lié à un bind avec ses propriétés
     """
 
     # on stocke la position en abscisse et ordonnée du clique dans x et y
-    x,y = event.x//r.rap,event.y//r.rap
+    x, y = event.x // r.rap, event.y // r.rap
     if x >= r.width:
-        x = r.width-1
+        x = r.width - 1
     if y >= r.height:
-        y = r.height-1
+        y = r.height - 1
     # l'élément cliqué est changé par l'item actuel
-    gate[x][y] = cur_item
+    gate[x][y] = curItem
 
     # destruction de l'élément actuel
     # on utilise un try au cas où l'élément à supprimer n'existe pas (l'emplacement était déjà vide)
@@ -114,35 +118,35 @@ def place(event=None):
         pass
 
     # nx et ny (nouveau x et nouveau y) ont pour valeur la nouvelle position du futur élément (son coin supérieur gauche)
-    nx,ny = x*r.rap,y*r.rap
+    nx, ny = x * r.rap, y * r.rap
     # on créé la représentation du nouvel élément, en fonction de l'item actuel
-    if cur_item == -1:
-        t = get_coords(x,y)
-        gateV[x][y] = g.obj_design(can,cur_item,t[0],t[1],t[2],t[3])
-    elif cur_item == 0:
-        # puisqu'on ne doit rien changer ici, on créé simplement une liste vide (il faut que ce soit une liste pour coïncider avec un obj_design de graphics g avec l'éxecution de new_can.move() ou new_can.delete())
+    if curItem == - 1:
+        t = get_coords(x, y)
+        gateV[x][y] = g.objDesign(can, curItem, t[0], t[1], t[2], t[3])
+    elif curItem == 0:
+        # puisqu'on ne doit rien changer ici, on créé simplement une liste vide (il faut que ce soit une liste pour coïncider avec un objDesign de graphics g avec l'éxecution de Canvas.move() ou Canvas.delete())
         gateV[x][y] = []
-    elif cur_item == 1:
-        gateV[x][y] = g.obj_design(can,cur_item,nx,ny,nx+r.rap,ny+r.rap)
-    elif cur_item == 2:
-        gateV[x][y] = g.obj_design(can,cur_item,nx,ny,nx+r.rap,ny+r.rap)
-    elif cur_item == 3:
-        gateV[x][y] = g.obj_design(can,cur_item,nx,ny,nx+r.rap,ny+r.rap)
+    elif curItem == 1:
+        gateV[x][y] = g.objDesign(can, curItem, nx, ny, nx + r.rap, ny + r.rap)
+    elif curItem == 2:
+        gateV[x][y] = g.objDesign(can, curItem, nx, ny, nx + r.rap, ny + r.rap)
+    elif curItem == 3:
+        gateV[x][y] = g.objDesign(can, cur_item, nx, ny, nx + r.rap, ny + r.rap)
 
     can.update()
 
     return
 
-def change_item(event=None):
-    """Fait l'item actuel changer en fonction de la touche pressée"""
+def changeItem(event = None):
     """
+    Fait l'item actuel changer en fonction de la touche pressée
     In :
-      event=None : objet de tkinter tk lié à un bind avec ses propriétés
+      event = None : objet de tkinter tk lié à un bind avec ses propriétés
     """
 
-    global cur_item
+    global curItem
 
-    # un dictionnaire (item_cor) indique à quoi (-1, 0, 1, 2 ou 3) correspond chaque event.keycode
+    # un dictionnaire (itemCor) indique à quoi (- 1, 0, 1, 2 ou 3) correspond chaque event.keycode
     
     if event.keycode in item_cor:
         
