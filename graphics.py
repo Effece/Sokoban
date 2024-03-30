@@ -46,7 +46,7 @@ class r:
 class obj_design(list):
     """Permet la partie design du projet ; éléments d'un objet rentrés dans self, une liste"""
 
-    def __init__(self, can, nb, x1, y1, x2, y2, c_ul=False, c_ur=False, c_dr=False, c_dl=False):
+    def __init__(self, can, nb, x1, y1, x2, y2, c_ul = False, c_ur = False, c_dr = False, c_dl = False):
 
         list.__init__(self)
         self.nb, self.can = nb, can
