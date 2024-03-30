@@ -41,43 +41,43 @@ class r:
 class new_can(tk.Canvas):
     """Nouveau Canvas"""
 
-    def __init__(self, width=None, height=None):
+    def __init__(self, width = None, height = None):
         """
         In :
-          width=None  : taille possible du Canvas (width)
-          height=None : taille possible du Canvas (height)
+          width = None  : taille possible du Canvas (width)
+          height = None : taille possible du Canvas (height)
         """
 
         if width == None or height == None:
             # si aucune donnée n'est fournie, la taille du Canvas est adaptée à la taille de la grille
             # sinon, elle est adaptée aux critères
-            self.width, self.height = len(m.gate())*r.rap, len(m.gate()[0])*r.rap
+            self.width, self.height = len(m.gate()) * r.rap, len(m.gate()[0]) * r.rap
         else:
             self.width, self.height = width, height
         self.bg = r.fill_can
         
-        tk.Canvas.__init__(self, win, width=self.width, height=self.height, bg=self.bg)
+        tk.Canvas.__init__(self, win, width = self.width, height = self.height, bg = self.bg)
 
-        self.grid(row=0, column=0, sticky='n')
+        self.grid(row = 0, column = 0, sticky = 'n')
 
         return
 
-    def update_size(self, width=None, height=None):
+    def update_size(self, width = None, height = None):
         """Actualise la taille du Canvas"""
         """
         In :
-          width=None  : taille possible du nouveau Canvas (width)
-          height=None : taille possible du nouveau Canvas (height)
+          width = None  : taille possible du nouveau Canvas (width)
+          height = None : taille possible du nouveau Canvas (height)
         """
 
         # si aucune donnée n'est fournie, la taille du Canvas est adaptée à la taille de la grille
         # sinon, elle est adaptée aux critères
         if width == None or height == None:
-            self.width, self.height = len(m.gate())*r.rap, len(m.gate()[0])*r.rap
+            self.width, self.height = len(m.gate()) * r.rap, len(m.gate()[0]) * r.rap
         else:
             self.width, self.height = width, height
 
-        self.config(width=self.width, height=self.height)
+        self.config(width = self.width, height = self.height)
 
         return
 
@@ -124,11 +124,11 @@ class new_can(tk.Canvas):
 
         return
 
-    def click(self, event=None):
+    def click(self, event = None):
         """Détection et traitement d'un clique dans le Canvas"""
         """
         In :
-          event=None : objet de tkinter tk lié à un bind avec ses propriétés
+          event = None : objet de tkinter tk lié à un bind avec ses propriétés
         """
 
         for k in new_button.ALL:
@@ -138,11 +138,11 @@ class new_can(tk.Canvas):
 
         return
 
-    def motion(self, event=None):
+    def motion(self, event = None):
         """Détection et traitement d'un mouvement de souris dans le Canvas"""
         """
         In :
-          event=None : objet de tkinter tk lié à un bind avec ses propriétés
+          event = None : objet de tkinter tk lié à un bind avec ses propriétés
         """
 
         for k in new_button.ALL:
@@ -165,16 +165,16 @@ class new_button:
     """Pour tous les boutons à créer sur le Canvas"""
 
     ALL = []
-    commands = {50:'restart()', 51:'keep()', 52:'undo()'}
+    commands = {50: 'restart()', 51: 'keep()', 52: 'undo()'}
 
-    def __init__(self, master, nb, width=r.rap, height=r.rap, x=None, y=None):
+    def __init__(self, master, nb, width = r.rap, height = r.rap, x = None, y = None):
         """
         In :
-          master       : le Canvas dans lequel le bouton doit se trouver
-          width=r.rap  : la largeur du bouton
-          height=r.rap : la hauteur du bouton
-          x=None       : l'abscisse initiale du bouton
-          y=None       : l'ordonnée initiale du bouton
+          master         : le Canvas dans lequel le bouton doit se trouver
+          width = r.rap  : la largeur du bouton
+          height = r.rap : la hauteur du bouton
+          x = None       : l'abscisse initiale du bouton
+          y = None       : l'ordonnée initiale du bouton
         """
 
         new_button.ALL.append(self)
@@ -188,16 +188,16 @@ class new_button:
         # si aucune donnée n'a été fournie pour x et y
         if x == None or y == None:
             if self.nb == 50:
-                self.x, self.y = self.master.width-r.des-self.width, r.des
+                self.x, self.y = self.master.width - r.des-self.width, r.des
             elif self.nb == 51:
-                self.x, self.y = (self.master.width-self.width)/2, (self.master.height-self.height)/2+self.master.height
+                self.x, self.y = (self.master.width - self.width) / 2, (self.master.height - self.height) / 2 + self.master.height
             elif self.nb == 52:
                 #self.x, self.y = r.des, r.des
-                self.x, self.y = self.master.width-(r.des+self.width)*2, r.des
+                self.x, self.y = self.master.width - (r.des + self.width) * 2, r.des
         else:
             self.x, self.y = x, y
 
-        self.view = g.obj_design(master, self.nb, self.x, self.y, self.x+self.width, self.y+self.height)
+        self.view = g.obj_design(master, self.nb, self.x, self.y, self.x + self.width, self.y+self.height)
 
         self.is_touched = False
 
@@ -207,15 +207,15 @@ class new_button:
         """Permet de recharger la représentation du bouton (mettre au premier plan)"""
 
         if self.nb == 50:
-            self.x, self.y = self.master.width-r.des-self.width, r.des
+            self.x, self.y = self.master.width-r.des - self.width, r.des
         elif self.nb == 51:
-            self.x, self.y = (self.master.width-self.width)/2, (self.master.height-self.height)/2+self.master.height
+            self.x, self.y = (self.master.width - self.width) / 2, (self.master.height - self.height) / 2 + self.master.height
         elif self.nb == 52:
-            self.x, self.y = self.master.width-(r.des+self.width)*2, r.des
+            self.x, self.y = self.master.width - (r.des + self.width) * 2, r.des
 
         # destruction puis recréation de new_button.view
         self.master.delete(self.view)
-        self.view = g.obj_design(self.master, self.nb, self.x, self.y, self.x+self.width, self.y+self.height)
+        self.view = g.obj_design(self.master, self.nb, self.x, self.y, self.x + self.width, self.y + self.height)
 
         return
 
@@ -225,16 +225,16 @@ class new_button:
         v = r.v_butnext
         
         # on avance progressivement le bouton
-        for k in range(self.master.height//v):
-            self.master.move(self.view, 0, -v)
+        for k in range(self.master.height // v):
+            self.master.move(self.view, 0, - v)
             self.y -= v
             time.sleep(0.01)
             can.update()
 
-        #puisqu'on a fait une division euclidienne ('self.master.height//v'), il peut rester quelques imperfections, corrigées ici
-        rest = abs(self.master.height//2 - self.y - self.height//2)
+        #puisqu'on a fait une division euclidienne ('self.master.height // v'), il peut rester quelques imperfections, corrigées ici
+        rest = abs(self.master.height // 2 - self.y - self.height // 2)
         self.y -= rest
-        self.master.move(self.view, 0, -rest)
+        self.master.move(self.view, 0, - rest)
 
         return
 
@@ -252,11 +252,11 @@ class new_button:
 class player(m.player):
     """Joueur avec les des propriétés et fonctions étendues en lien avec tkinter tk du joueur dans script m"""
 
-    def __init__(self, x=None, y=None):
+    def __init__(self, x = None, y = None):
         """
         In :
-          x=None : abscisse possible du joueur
-          y=None : ordonnée possible du joueur
+          x = None : abscisse possible du joueur
+          y = None : ordonnée possible du joueur
         """
 
         # si aucune donnée n'est fournie sur les coordonnées, script m prend des coordonnées logiques en fonction de sa liste levels_save
@@ -270,7 +270,7 @@ class player(m.player):
         t = self.get_coords()
 
         # création d'une liste obj_design du module graphics g d'objets can.create propres au joueur
-        self.view = g.obj_design(can, -1, t[0], t[1], t[2], t[3])
+        self.view = g.obj_design(can, - 1, t[0], t[1], t[2], t[3])
 
         return
 
@@ -284,18 +284,18 @@ class player(m.player):
           ordonnée y2
         """
         
-        return (self.x*r.rap+r.rap/4, self.y*r.rap+r.rap/4, (self.x+1)*r.rap-r.rap/4, (self.y+1)*r.rap-r.rap/4)
+        return (self.x * r.rap + r.rap / 4, self.y * r.rap + r.rap / 4, (self.x + 1) * r.rap - r.rap/4, (self.y + 1) * r.rap - r.rap / 4)
 
-    def move(self, event=None):
+    def move(self, event = None):
         """Actualise la position d'un joueur - extension de la fonction initiale"""
         """
         In :
-          event=None : objet de tkinter tk lié à un bind avec ses propriétés
+          event = None : objet de tkinter tk lié à un bind avec ses propriétés
         """
 
         # réinitialisation de la position du joueur avec ses anciennes coordonnées
         t = self.get_coords()
-        can.move(self.view, -t[0], -t[1])
+        can.move(self.view, - t[0], - t[1])
 
         # changement des coordonnées et obtention de possibles éléments concernant les objets bougés stockés dans f
         f = super(player, self).move(event)
@@ -304,13 +304,13 @@ class player(m.player):
         t = self.get_coords()
         can.move(self.view, t[0], t[1])
 
-        # si f n'a changé la position d'une caisse, il contient des '-1'
+        # si f n'a changé la position d'une caisse, il contient des '- 1'
         # sinon, il contient les informations concernant les nouvelles coordonnées de la caisse bougée
-        if not -1 in f[1]:
+        if not - 1 in f[1]:
             e = gateV[self.x][self.y]
             # repositionnement en deux étapes (réinitialisation et positionnement) de la caisse
-            can.move(e, -self.x*r.rap, -self.y*r.rap)
-            can.move(e, f[1][0]*r.rap, f[1][1]*r.rap)
+            can.move(e, - self.x * r.rap, - self.y * r.rap)
+            can.move(e, f[1][0] * r.rap, f[1][1] * r.rap)
             # changements dans gateV de la caisse
             gateV[f[1][0]][f[1][1]] = e
         
@@ -318,11 +318,11 @@ class player(m.player):
 
         return
 
-    def move_all(cls, event=None):
+    def move_all(cls, event = None):
         """Actualise la position de tous les joueurs et, parfois, des caisses"""
         """
         In :
-          event=None : objet de tkinter tk lié à un bind avec ses propriétés
+          event = None : objet de tkinter tk lié à un bind avec ses propriétés
         """
         # tous les joueurs se déplacent alors avec la même direction, mais le programme respecte un ordre entre chaque joueur qui pose parfois problème lorsque deux sont côte à côte
         # l'ordre basique donne la priorité aux plus à gauche, et parmi ceux sur la même colonne, les plus bas
@@ -366,7 +366,7 @@ class player(m.player):
 
         # obtention des nouvelles coordonnées et création avec des nouveaux objets dans un obj_design de graphics g
         t = self.get_coords()
-        self.view = g.obj_design(can, -1, t[0], t[1], t[2], t[3])
+        self.view = g.obj_design(can, - 1, t[0], t[1], t[2], t[3])
 
         return
 
@@ -426,11 +426,11 @@ class clock:
 
         return
 
-    def change_able(cls, event=None):
+    def change_able(cls, event = None):
         """Active ou désactive le timer"""
         """
         In :
-          event=None : objet de tkinter tk lié à un bind avec ses propriétés
+          event = None : objet de tkinter tk lié à un bind avec ses propriétés
         """
 
         if next_level:
@@ -452,7 +452,7 @@ class clock:
                     #k.view.y1 += r.outscreen
                     #k.view.y2 += r.outscreen
 
-            restart(r_timer=False)
+            restart(r_timer = False)
 
         return
 
@@ -461,11 +461,11 @@ class clock:
 """---------------------------------------------------------------------------------------------------------------------------------------------------"""
 ### CHANGEMENTS SUR LES GRILLES ###
 
-def actualize(actu_gateVC=True):
+def actualize(actu_gateVC = True):
     """Regénère les grilles"""
     """
     In :
-      actu_gateVC=False : détermine si gateVC doit être actualisé
+      actu_gateVC = False : détermine si gateVC doit être actualisé
     """
     
     global gate, gateV, gateVC
@@ -475,61 +475,61 @@ def actualize(actu_gateVC=True):
     can.update_size()
 
     # on essaie de détruire chaque élément du Canvas pour le décharger
-    for k1 in gateV:
-        for k2 in k1:
+    for i in gateV:
+        for j in i:
             try:
-                can.delete(k2)
+                can.delete(j)
             except Exception:
                 # on ne fait rien s'il y a eu une erreur (normalement l'emplacement était vide)
                 pass
-    for k1 in gateVC:
-        for k2 in k1:
+    for i in gateVC:
+        for j in i:
             try:
-                can.delete(k2)
+                can.delete(j)
             except Exception:
                 pass
 
     # recréation des listes gate, gateV et gateVC et récupération intérieure à la fonction de gateC (tableau pour la position des croix)
     gate = m.gate()
     gateC = m.gateC()
-    gateV = [[None for k2 in k1] for k1 in gate]
-    gateVC = [[None for k2 in k1] for k1 in gate]
+    gateV = [[None for j in i] for i in gate]
+    gateVC = [[None for j in i] for i in gate]
 
     # liste regroupant tous les objets obj_design du Canvas de chaque joueur, afin de les pop un par un plus tard lors de l'affichage
     p_t = [k.view for k in player.ALL]
 
     # on analyse chaque élément de gate (niveau actuel) pour créer sa représentation dans le Canvas
-    for k1 in range(len(gate)):
-        for k2 in range(len(gate[k1])):
+    for i in range(len(gate)):
+        for j in range(len(gate[i])):
             # récupération et stockage dans e de l'élément
-            e = gate[k1][k2]
+            e = gate[i][j]
 
             # si l'élément est un joueur, on associe son attribut player.view - on fait cela pour le dernier joueur de player.ALL, et poru éviter de créer deux joueurs, on pop l'élément de p_t
             # sinon, on créer un objet obj_design pour l'élément
 
-            if e == -1:
+            if e == - 1:
 
-                gateV[k1][k2] = p_t.pop(0)
+                gateV[i][j] = p_t.pop(0)
 
             elif e == 1:
 
-                gateV[k1][k2] = g.obj_design(can, 1, k1*r.rap, k2*r.rap, (k1+1)*r.rap, (k2+1)*r.rap)
+                gateV[i][j] = g.obj_design(can, 1, i * r.rap, j * r.rap, (i+1) * r.rap, (j+1) * r.rap)
 
             elif e == 3:
 
                 # afin de fusionner les coins si deux murs sont adjacents, on stocke si les éléments à côté sont aussi des murs dans les variables up (up - élément au-dessus), do (down - élément en-dessous), ri (right - élément à droite) et le (left - élément à gauche
-                # pour up (up) et le (left), on vérifie ("k1-1 >= 0" & "k2-1 >= 0") que l'index fourni n'est pas -1 (ce qui renverrait au dernier élément de la liste, or l'analyse se contente des murs conjoints directement)
+                # pour up (up) et le (left), on vérifie ("i-1 > = 0" & "j-1 > = 0") que l'index fourni n'est pas -1 (ce qui renverrait au dernier élément de la liste, or l'analyse se contente des murs conjoints directement)
                 # pour do (down) et ri (right), on rejoute un try au cas où le mur analysé se trouve sur un bord (bord bas ou droit), afin d'éviter, lors de l'analyse, un problème d'index (demande d'un index hors de la liste, soit supérieur ou égal à sa longueur)
-                up = m.gate()[k1][k2-1] == 3 and k2-1 >= 0
+                up = m.gate()[i][j - 1] == 3 and j - 1 >= 0
                 try:
-                    do = m.gate()[k1][k2+1] == 3
+                    do = m.gate()[i][j + 1] == 3
                 except Exception:
                     do = False
                 try:
-                    ri = m.gate()[k1+1][k2] == 3
+                    ri = m.gate()[i + 1][j] == 3
                 except Exception:
                     ri = False
-                le = m.gate()[k1-1][k2] == 3 and k1-1 >= 0
+                le = m.gate()[i - 1][j] == 3 and i  -1 >= 0
 
                 # avec les données obtenues précédemment (dans up, do, ri et le), on créé des nouvelles variables (voir le commentaire suivant) qui déterminent si un coin doit être rempli ou laissé arrondi
                 #(c_ul : condition up-left, c_ur : condition up-right, c_dl : condition down-left, c_dr : condition down-right
@@ -538,13 +538,13 @@ def actualize(actu_gateVC=True):
                 c_dl = do or le
                 c_dr = do or ri
 
-                gateV[k1][k2] = g.obj_design(can, 3, k1*r.rap, k2*r.rap, (k1+1)*r.rap, (k2+1)*r.rap, c_ul=c_ul, c_ur=c_ur, c_dl=c_dl, c_dr=c_dr)
+                gateV[i][j] = g.obj_design(can, 3, i * r.rap, j * r.rap, (i + 1) * r.rap, (j + 1) * r.rap, c_ul = c_ul, c_ur = c_ur, c_dl = c_dl, c_dr = c_dr)
 
     # pour chacune des croix encore valides (aucune caisse dessus), on créé sa représentation dans le Canvas avec un obj_design
-    for k1 in range(len(gateC)):
-        for k2 in range(len(gateC[k1])):
-            if gateC[k1][k2][1]:# or (not actu_gateVC):
-                gateVC[k1][k2] = g.obj_design(can, 2, k1*r.rap, k2*r.rap, (k1+1)*r.rap, (k2+1)*r.rap)
+    for i in range(len(gateC)):
+        for j in range(len(gateC[i])):
+            if gateC[i][j][1]: # or (not actu_gateVC):
+                gateVC[i][j] = g.obj_design(can, 2, i * r.rap, j * r.rap, (i + 1) * r.rap, (j + 1) * r.rap)
 
     # on recréé l'attribut player.view pour chaque joueur
     for k in player.ALL:
@@ -562,11 +562,11 @@ def actualize(actu_gateVC=True):
 """---------------------------------------------------------------------------------------------------------------------------------------------------"""
 ### FONCTION RESTART ###
 
-def restart(event=None, r_timer=True):
+def restart(event = None, r_timer = True):
     """Fait le niveau actuel recommencer en complément du module"""
     """
     In :
-      event=None : objet de tkinter tk lié à un bind avec ses propriétés
+      event = None : objet de tkinter tk lié à un bind avec ses propriétés
     """
 
     # si le niveau n'est pas fini
@@ -589,19 +589,19 @@ def restart(event=None, r_timer=True):
         # recréation de tous les joueurs, en fonction du nombre présent sur la grille
         cur = m.get_cur()
         levels = m.levels_save
-        for k1 in levels[cur]:
-            for k2 in k1:
-                if k2 == -1:
+        for i in levels[cur]:
+            for j in i:
+                if j == - 1:
                     player()
 
         # on trouve toutes les positions possibles pour les joueurs (tx1 et x1 pour x, tx2 et x2 pour y)
 
-        tx1 = [[k]*levels[cur][k].count(-1) for k in range(len(levels[cur])) if -1 in levels[cur][k]]
+        tx1 = [[k] * levels[cur][k].count(- 1) for k in range(len(levels[cur])) if - 1 in levels[cur][k]]
         tx2 = []
-        for k1 in levels[cur]:
-            # t contient tous les indexs des -1 dans la colonne actuelle k1
+        for i in levels[cur]:
+            # t contient tous les indexs des -1 dans la colonne actuelle i
             # si t n'est pas vide, on l'ajoute à tx2
-            t = [k2 for k2 in range(len(k1)) if k1[k2] == -1]
+            t = [j for j in range(len(i)) if i[j] == - 1]
             if len(t) > 0:
                 tx2.append(t)
 
@@ -624,16 +624,16 @@ def restart(event=None, r_timer=True):
 """---------------------------------------------------------------------------------------------------------------------------------------------------"""
 ### FONCTION UNDO ###
 
-def undo(event=None):
+def undo(event = None):
     """Annule le dernier mouvement"""
     """
     In :
-      event=None : objet de tkinter tk lié à un bind avec ses propriétés
+      event = None : objet de tkinter tk lié à un bind avec ses propriétés
     """
 
     if len(m.history) > 0 and next_level and m.hist_allowed > 0:
 
-        pos = m.undo(prt=1)
+        pos = m.undo(prt = 1)
 
         for k in gateV:
             can.delete(k)
@@ -643,25 +643,25 @@ def undo(event=None):
             player.ALL[k].repos(pos[0][k], pos[1][k])
             player.ALL[k].new_view()
 
-        m.undo(prt=2)
+        m.undo(prt = 2)
 
         for k in gateVC:
             can.delete(k)
 
-        actualize(actu_gateVC=False)
+        actualize(actu_gateVC = False)
 
-        m.undo(prt=3)
+        m.undo(prt = 3)
 
     return
 
 """---------------------------------------------------------------------------------------------------------------------------------------------------"""
 ### FONCTION DE CONTINUITE APRES UN NIVEAU ###
 
-def keep(event=None):
+def keep(event = None):
     """Permet de passer d'un niveau à un autre"""
     """
     In :
-      event=None : objet de tkinter tk lié à un bind avec ses propriétés
+      event = None : objet de tkinter tk lié à un bind avec ses propriétés
     """
 
     global next_level
@@ -683,17 +683,17 @@ gateV = [[]]
 gateVC = [[]]
 
 # on créé un joueur pour chaque -1 dans le niveau actuel, au cas où le niveau commence avec plusieurs joueurs
-for k1 in range(len(m.levels_save[m.cur])):
-    for k2 in range(len(m.levels_save[m.cur][k1])):
-        if m.levels_save[m.cur][k1][k2] == -1:
-            player(x=k1, y=k2)
+for i in range(len(m.levels_save[m.cur])):
+    for j in range(len(m.levels_save[m.cur][i])):
+        if m.levels_save[m.cur][i][j] == - 1:
+            player(x = i, y = j)
 
 # création du bouton restart
 new_button(can, 50)
 # création du bouton undo
 new_button(can, 52)
 # création du bouton next
-next_b = new_button(can, 51, width=r.rap*1.5, height=r.rap*1.5)
+next_b = new_button(can, 51, width = r.rap * 1.5, height = r.rap * 1.5)
 
 # création du timer
 timer = clock(can)
@@ -749,7 +749,7 @@ while not end:
         timer.refresh()
 
     # si le niveau actuel est fini
-    if m.check_end(want_ins=False):
+    if m.check_end(want_ins = False):
 
         # on attend que le joueur valide pour passer au niveau suivant
         
@@ -778,19 +778,19 @@ while not end:
         # on recréé chaque joueur
         cur = m.get_cur()
         levels = m.get_levels()
-        for k1 in levels[cur]:
-            for k2 in k1:
-                if k2 == -1:
+        for i in levels[cur]:
+            for j in i:
+                if j == - 1:
                     player()
 
         # on trouve toutes les positions possibles pour les joueurs (tx1 et x1 pour x, tx2 et x2 pour y)
 
-        tx1 = [[k]*levels[cur][k].count(-1) for k in range(len(levels[cur])) if -1 in levels[cur][k]]
+        tx1 = [[k] * levels[cur][k].count(- 1) for k in range(len(levels[cur])) if - 1 in levels[cur][k]]
         tx2 = []
-        for k1 in levels[cur]:
-            # t contient tous les indexs des -1 dans la colonne actuelle k1
+        for i in levels[cur]:
+            # t contient tous les indexs des -1 dans la colonne actuelle i
             # si t n'est pas vide, on l'ajoute à tx2
-            t = [k2 for k2 in range(len(k1)) if k1[k2] == -1]
+            t = [j for j in range(len(i)) if i[j] == - 1]
             if len(t) > 0:
                 tx2.append(t)
 
