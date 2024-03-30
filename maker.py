@@ -76,7 +76,7 @@ can = Canvas()
 """---------------------------------------------------------------------------------------------------------------------------------------------------"""
 ### FONCTION DES COORDONNEES POUR LE JOUEUR ###
 
-def getCoords(x,y):
+def getCoords(x, y):
         """
         Renvoie les coordonnées pour CAN d'un joueur
         In :
@@ -168,11 +168,11 @@ gateV = [[None] * r.height for k in range(r.width)]
 cur_item = 3
 item_cor = {65:-1,90:0,69:1,82:2,84:3}
 
-def stop(event=None):
+def stop(event = None):
     """Change END  pour faire finir le programme"""
     """
     In :
-      event=None : objet de tkinter tk lié à un bind avec ses propriétés
+      event = None : objet de tkinter tk lié à un bind avec ses propriétés
     """
     
     global end
@@ -187,14 +187,14 @@ def stop(event=None):
 end = False
 
 # association de quelques touches
-win.bind('<g>',stop)
-win.bind('<a>',change_item)
-win.bind('<z>',change_item)
-win.bind('<e>',change_item)
-win.bind('<r>',change_item)
-win.bind('<t>',change_item)
-can.bind('<Button1-Motion>',place)
-can.bind('<Button-1>',place)
+win.bind('<g>', stop)
+win.bind('<a>', change_item)
+win.bind('<z>', change_item)
+win.bind('<e>', change_item)
+win.bind('<r>', change_item)
+win.bind('<t>', change_item)
+can.bind('<Button1-Motion>', place)
+can.bind('<Button-1>', place)
 
 while not end:
     # afin d'éviter une erreur si la fenêtre est fermée pendant la création
@@ -212,13 +212,13 @@ end = True
 # on demande quelle taille conserver de la grille gate
 # si ce qui est donné n'est pas valide, on conserve la taille maximale
 try:
-    h,l = int(input('Hauteur :\n')),int(input('Largeur :\n'))
+    h, l = int(input('Hauteur :\n')), int(input('Largeur :\n'))
 except Exception:
-    h,l = r.height,r.width
+    h, l = r.height, r.width
 
 # changement de la grille en string et modification de la syntaxe pour une meilleure lisibilité dans lvls
-sh = [k[:h] for k in gate[:l]]
-t = str(sh).replace(' ','').replace(',[',',\n     [')
+sh = [k[: h] for k in gate[: l]]
+t = str(sh).replace(' ', '').replace(',[', ',\n     [')
 print(f'Grille générée :\n     {t}')
 
 try:
