@@ -10,23 +10,23 @@ levels_save = l.levels_save
 
 # levels_no_cross est la première étape pour séparer les croix du reste, puisque celles-ci sont superposables
 
-levels_no_cross = [[k2[:] for k2 in k1] for k1 in levels_save]
+levels_no_cross = [[j[:] for j in i] for i in levels_save]
 
 # après avoir copié la liste, il faut changer tous les 2 (croix) en 0 (vide)
-for k1 in levels_no_cross:
-    for k2 in k1:
-        for k3 in k2:
-            if k3 == 2:
-                k3 = 0
+for i in levels_no_cross:
+    for j in i:
+        for k in j:
+            if k == 2:
+                k = 0
 
 # on finit d'initialiser les variables et listes, en copiant levels_no_cross dans levels
 # levels est une liste de tous les niveaux
 #lorsqu'un élément bouge, levels[cur] (niveau actuel) s'adapte au mouvement ; mais après un restart ou un changement de niveau, levels[cur] (niveau actuel) redevient comme avant (levels_no_cross[cur])
-levels = [[k2[:] for k2 in k1] for k1 in levels_no_cross]
+levels = [[j[:] for j in i] for i in levels_no_cross]
 
-# chaque point possède une liste, avec son index et, surtout, s'il est une croix (avec l'analyse 'k2[k3] == 2')
+# chaque point possède une liste, avec son index et, surtout, s'il est une croix (avec l'analyse 'j[k] == 2')
 # c'est peut-être assez inoptimal
-cross = [[[[k3,k2[k3] == 2] for k3 in range(len(k2))] for k2 in k1] for k1 in levels_save]
+cross = [[[[k, j[k] == 2] for k in range(len(j))] for j in i] for i in levels_save]
 
 # cur sert à désigner le niveau actuel ; automatiquement, il est défini sur 0, le premier niveau
 # cur est utilisé pour trouver le niveau actuel en faisant 'levels[cur]' ou 'cross[cur]'
@@ -103,8 +103,8 @@ def get_levels():
 
 # valeurs permettant, si le premier niveau n'a qu'un seul joueur et qu'il n'est pas donné avec des x et y, de lui en donner
 # si l'on veut peut-être élargir la technique à plusieurs joueurs, il faut retirer les '[0]' et ajouter des indexs à quelques endroits
-x1 = [levels[0].index(k) for k in levels[cur] if -1 in k][0]
-x2 = [k.index(-1) for k in levels[cur] if -1 in k][0]
+x1 = [levels[0].index(k) for k in levels[cur] if - 1 in k][0]
+x2 = [k.index(- 1) for k in levels[cur] if - 1 in k][0]
 
 """---------------------------------------------------------------------------------------------------------------------------------------------------"""
 ### CREATION DES JOUEURS ###
@@ -112,7 +112,7 @@ x2 = [k.index(-1) for k in levels[cur] if -1 in k][0]
 class event:
     """Permet de créer un faux EVENT de Tkinter pour éxecuter des tests dans la console"""
     
-    def __init__(self,keycode):
+    def __init__(self, keycode):
         """
         In :
           keycode : valeur du keycode demandée (37, 38, 39 ou 40 pour les flèches)
@@ -129,11 +129,11 @@ class player:
     ALL = []
     nb = 0
 
-    def __init__(self,x=x1,y=x2):
+    def __init__(self, x = x1, y = x2):
         """
         In :
-          x=x1 : abscisse de départ du joueur
-          y=x2 : ordonnée de départ du joueur
+          x = x1 : abscisse de départ du joueur
+          y = x2 : ordonnée de départ du joueur
         """
 
         # ajout de self à player.ALL et (bien qu'inutile et non actualisé) augmentation de player.nb
@@ -141,11 +141,11 @@ class player:
         player.ALL.append(self)
         player.nb += 1
         
-        self.x,self.y = x,y
+        self.x, self.y = x, y
 
         return
 
-    def get_c_move(self,event=None):
+    def get_c_move(self, event = None):
         """Donne les conditions de mouvement vers le haut, le bas, la droite et la gauche du joueur"""
         """
         In :
@@ -156,49 +156,49 @@ class player:
 
         # afin de vérifier si le joueur peut bouger, on analyse :
         #   si le keycode est le bon                                                                                      | 'event.keycode == {}'
-        #   si l'élément devant n'est pas un joueur ou un mur                                                             | '{not} gate()[self.x{}][self.y{}] in [-1,3]'
-        #   si l'élément devant la position future n'est pas une caisse bloquée par un joueur, une autre caisse ou un mur | '{not} gate()[self.x{}][self.y{}] == 1 and {}gate()[self.x{}][self.y{}] in [-1,1,3]'
+        #   si l'élément devant n'est pas un joueur ou un mur                                                             | '{not} gate()[self.x{}][self.y{}] in [- 1, 3]'
+        #   si l'élément devant la position future n'est pas une caisse bloquée par un joueur, une autre caisse ou un mur | '{not} gate()[self.x{}][self.y{}] == 1 and {}gate()[self.x{}][self.y{}] in [- 1, 1, 3]'
         # pour c_up et c_le (up et left), on vérifie également que les coordonnées des positions devant ne sont pas négatives (ce qui renverrait aux derniers items)
         # la vérification pour c_do et c_ri (down et right) est faite par le 'try', qui évite l'erreur d'index supérieur à la longueur de la liste
 
         # c_up : condition up, c_do : condition down, c_ri : condition right, c_le : condition left
         
         try:
-            c_up = event.keycode == 38 and not (gate()[self.x][self.y-1] in [-1,3] or (gate()[self.x][self.y-1] == 1 and (gate()[self.x][self.y-2] in [-1,1,3] or self.y-2 < 0)) or self.y-1 < 0)
+            c_up = event.keycode == 38 and not (gate()[self.x][self.y-1] in [- 1, 3] or (gate()[self.x][self.y-1] == 1 and (gate()[self.x][self.y-2] in [- 1, 1, 3] or self.y - 2 < 0)) or self.y - 1 < 0)
         except Exception:
             c_up = False
         try:
-            c_do = event.keycode == 40 and not (gate()[self.x][self.y+1] in [-1,3] or (gate()[self.x][self.y+1] == 1 and gate()[self.x][self.y+2] in [-1,1,3]))
+            c_do = event.keycode == 40 and not (gate()[self.x][self.y+1] in [- 1, 3] or (gate()[self.x][self.y+1] == 1 and gate()[self.x][self.y+2] in [- 1, 1, 3]))
         except Exception:
             c_do = False
         try:
-            c_ri = event.keycode == 39 and not (gate()[self.x+1][self.y] in [-1,3] or (gate()[self.x+1][self.y] == 1 and gate()[self.x+2][self.y] in [-1,1,3]))
+            c_ri = event.keycode == 39 and not (gate()[self.x+1][self.y] in [- 1, 3] or (gate()[self.x+1][self.y] == 1 and gate()[self.x+2][self.y] in [- 1, 1, 3]))
         except Exception:
             c_ri = False
         try:
-            c_le = event.keycode == 37 and not (gate()[self.x-1][self.y] in [-1,3] or (gate()[self.x-1][self.y] == 1 and (gate()[self.x-2][self.y] in [-1,1,3] or self.x-2 < 0))  or self.x-1 < 0)
+            c_le = event.keycode == 37 and not (gate()[self.x-1][self.y] in [- 1, 3] or (gate()[self.x-1][self.y] == 1 and (gate()[self.x-2][self.y] in [- 1, 1, 3] or self.x - 2 < 0))  or self.x - 1 < 0)
         except Exception:
             c_le = False
 
-        return (c_up,c_do,c_ri,c_le)
+        return (c_up, c_do, c_ri, c_le)
 
-    def move(self,event=None):
+    def move(self, event = None):
         """Permet de bouger un joueur et, parfois, une caisse"""
         """
         In :
-          event=None : objet de tkinter tk lié à un bind avec ses propriétés
+          event = None : objet de tkinter tk lié à un bind avec ses propriétés
         Out :
           le résultat des conditions de déplacement du joueur (c_up, c_do, c_ri et c_le)
-          les coordonnées de la caisse déplacée (-1 si aucune n'a été déplacée)
+          les coordonnées de la caisse déplacée (- 1 si aucune n'a été déplacée)
         """
 
         # on trouve déjà si le joueur va bien pouvoir bouger vers le haut, le bas, la droite ou la gauche
         c_all = self.get_c_move(event)
-        c_up,c_do,c_ri,c_le = c_all[0],c_all[1],c_all[2],c_all[3]
+        c_up, c_do, c_ri, c_le = c_all[0], c_all[1], c_all[2], c_all[3]
 
         # 'returned' est une liste de ce qui sera renvoyé (les conditions précédentes et les coordonnées d'une boîte déplacée (s'il y en a une)
-        # returned[1] est défini de base sur -1, ce qui veut dire qu'aucune caisse n'a été déplacée
-        returned = [(c_up,c_do,c_ri,c_le),(-1,-1)]
+        # returned[1] est défini de base sur - 1, ce qui veut dire qu'aucune caisse n'a été déplacée
+        returned = [(c_up, c_do, c_ri, c_le), (- 1, - 1)]
 
         # si on peut bouger le joueur
         if c_up or c_do or c_ri or c_le:
@@ -216,17 +216,17 @@ class player:
             if c_up:
                 self.y -= 1
                 if gate()[self.x][self.y] == 1:
-                    levels[cur][self.x][self.y-1] = 1
-                    returned[1] = (self.x,self.y-1)
-                    e = cross[cur][self.x][self.y-1]
-                    e[1] = not (self.y-1 in [k[0] for k in gateC()[self.x]])
+                    levels[cur][self.x][self.y - 1] = 1
+                    returned[1] = (self.x, self.y - 1)
+                    e = cross[cur][self.x][self.y - 1]
+                    e[1] = not (self.y - 1 in [k[0] for k in gateC()[self.x]])
 
             # si le mouvement est vers le bas
             elif c_do:
                 self.y += 1
                 if gate()[self.x][self.y] == 1:
                     levels[cur][self.x][self.y+1] = 1
-                    returned[1] = (self.x,self.y+1)
+                    returned[1] = (self.x, self.y+1)
                     e = cross[cur][self.x][self.y+1]
                     e[1] = not (self.y+1 in [k[0] for k in gateC()[self.x]])
 
@@ -235,7 +235,7 @@ class player:
                 self.x += 1
                 if gate()[self.x][self.y] == 1:
                     levels[cur][self.x+1][self.y] = 1
-                    returned[1] = (self.x+1,self.y)
+                    returned[1] = (self.x+1, self.y)
                     e = cross[cur][self.x+1][self.y]
                     e[1] = not (self.y in [k[0] for k in gateC()[self.x+1]])
 
@@ -243,20 +243,20 @@ class player:
             elif c_le:
                 self.x -= 1
                 if gate()[self.x][self.y] == 1:
-                    levels[cur][self.x-1][self.y] = 1
-                    returned[1] = (self.x-1,self.y)
-                    e = cross[cur][self.x-1][self.y]
-                    e[1] = not (self.y in [k[0] for k in gateC()[self.x-1]])
+                    levels[cur][self.x- 1][self.y] = 1
+                    returned[1] = (self.x- 1, self.y)
+                    e = cross[cur][self.x- 1][self.y]
+                    e[1] = not (self.y in [k[0] for k in gateC()[self.x- 1]])
 
             if not gateC()[self.x][self.y][1] and levels_save[cur][self.x][self.y] == 2:
                 cross[cur][self.x][self.y][1] = True
 
             # on actualise la grille avec la position actuelle du joueur
-            levels[cur][self.x][self.y] = -1
+            levels[cur][self.x][self.y] = - 1
 
         return returned
 
-    def repos(self,x,y):
+    def repos(self, x, y):
         """Actualise les coordonnées du joueur"""
         """
         In :
@@ -264,7 +264,7 @@ class player:
           y : la future ordonnée du joueur
         """
         
-        self.x,self.y = x,y
+        self.x, self.y = x, y
 
         return
 
@@ -273,15 +273,15 @@ class player:
 
         # on récupère dans p toutes les positions des joueurs sur la grille (qui est souvent réinitialisée avant)
         p = []
-        for k1 in range(len(gate())):
-            for k2 in range(len(gate()[k1])):
-                if k2 == -1:
-                    p.append((k1,k2))
+        for i in range(len(gate())):
+            for j in range(len(gate()[i])):
+                if j == - 1:
+                    p.append((i, j))
 
         # on repositionne chaque joueur avec les coordonnées obtenues précédemment
         for k in ALL:
             tup = p.pop()
-            k.repos(tup[0],tup[1])
+            k.repos(tup[0], tup[1])
 
         # cette partie de programme doit pouvoir s'alleger si on fusionne les deux boucles, on repositionnant directement un joueur quand on obtient une position
         
@@ -299,10 +299,10 @@ def restart():
 
     new_level(actu=False)
     
-    #x1 = [levels[cur].index(k) for k in levels[cur] if -1 in k][0]
-    #x2 = [k.index(-1) for k in levels[cur] if -1 in k][0]
+    #x1 = [levels[cur].index(k) for k in levels[cur] if - 1 in k][0]
+    #x2 = [k.index(- 1) for k in levels[cur] if - 1 in k][0]
     #for k in player.ALL:
-    #    k.repos(x1,x2)
+    #    k.repos(x1, x2)
 
     return
 
@@ -316,7 +316,7 @@ def save_history():
 
     history.append([k[:] for k in levels[cur]])
     try:
-        if history[-1] == history[-2]:
+        if history[- 1] == history[-2]:
             history.pop()
     except Exception:
         pass
@@ -330,7 +330,7 @@ def undo(prt):
       prt : la partie du script à éxecuter
     """
 
-    global hist_allowed,history,levels,cross
+    global hist_allowed, history, levels, cross
 
     if prt == 1:
 
@@ -339,43 +339,43 @@ def undo(prt):
 
         # on trouve toutes les positions possibles pour les joueurs (tx1 et x1 pour x, tx2 et x2 pour y)
 
-        tx1 = [[k]*levels[cur][k].count(-1) for k in range(len(levels[cur])) if -1 in levels[cur][k]]
+        tx1 = [[k]*levels[cur][k].count(- 1) for k in range(len(levels[cur])) if - 1 in levels[cur][k]]
         tx2 = []
-        for k1 in levels[cur]:
-            # t contient tous les indexs des -1 dans la colonne actuelle k1
+        for i in levels[cur]:
+            # t contient tous les indexs des - 1 dans la colonne actuelle i
             # si t n'est pas vide, on l'ajoute à tx2
-            t = [k2 for k2 in range(len(k1)) if k1[k2] == -1]
+            t = [j for j in range(len(i)) if i[j] == - 1]
             if len(t) > 0:
                 tx2.append(t)
 
         # tx1 et tx2 sont des listes de listes ; on les fusionne dans x1 et x2 pour en faire des simples listes dont les éléments sont liés par leurs indexs
-        x1,x2 = [],[]
+        x1, x2 = [], []
         for k in tx1:
             x1 += k
         for k in tx2:
             x2 += k
 
-        return (x1,x2)
+        return (x1, x2)
 
     elif prt == 2:
 
         # on recréé toutes les croix
-        for k1 in range(len(levels[cur])):
-            for k2 in range(len(levels[cur][k1])):
-                cross[cur][k1][k2][1] = levels_save[cur][k1][k2] == 2
+        for i in range(len(levels[cur])):
+            for j in range(len(levels[cur][i])):
+                cross[cur][i][j][1] = levels_save[cur][i][j] == 2
 
         return
 
     elif prt == 3:
         
-        for k1 in range(len(levels[cur])):
-            for k2 in range(len(levels[cur][k1])):
-                cross[cur][k1][k2][1] = levels_save[cur][k1][k2] == 2 and levels[cur][k1][k2] != 1
+        for i in range(len(levels[cur])):
+            for j in range(len(levels[cur][i])):
+                cross[cur][i][j][1] = levels_save[cur][i][j] == 2 and levels[cur][i][j] != 1
 
 """---------------------------------------------------------------------------------------------------------------------------------------------------"""
 ### FONCTIONS DE CHANGEMENT DE NIVEAU ###
 
-def check_end(ins=False,want_ins=True):
+def check_end(ins=False, want_ins=True):
     """Renvoie si le niveau est terminé"""
     """
     In :
@@ -387,7 +387,7 @@ def check_end(ins=False,want_ins=True):
 
     # si l'on veut automatiquement passer au niveau suivant
     if want_ins and not ins:
-        if check_end(True,want_ins):
+        if check_end(True, want_ins):
             new_level()
             player.repos_all()
 
@@ -401,11 +401,11 @@ def new_level(actu=True):
       actu=True : boolean qui détermine si CUR doit être incrémenté
     """
     
-    global cur,history,hist_allowed
+    global cur, history, hist_allowed
 
     # réinitialisation du niveau actuel dans levels et cross
     levels[cur] = [k[:] for k in levels_no_cross[cur]]
-    cross[cur] = [[[k2,k1[k2] == 2] for k2 in range(len(k1))] for k1 in levels_save[cur]]
+    cross[cur] = [[[j, i[j] == 2] for j in range(len(i))] for i in levels_save[cur]]
 
     # réinitialisation de l'historique
     history = []
