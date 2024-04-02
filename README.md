@@ -12,3 +12,9 @@ This brings new strategies. Two levels have the player stuck in a small space wh
 
 ## Files and maker program
 Among the files, there are the two main programs, the one containing the levels and a level maker. The level maker generates a grid on which you can add the elements as you want, then it generates a list that you can implement in the levels file.
+
+## Levels
+Many levels were found online and most if not all of them were published in a lot of different recreations so I don't have credits. A few 1-player levels and every multi-player level are my creations though.
+
+## Graphics
+Tkinter being known for its great image rendering, the textures aren't images but drawn polygons. Your computer may not enjoy your playthrough sometimes.
